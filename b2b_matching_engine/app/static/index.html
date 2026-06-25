@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twintik B2B Matchmaker Console</title>
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/static/index.css">
+</head>
+<body>
+
+  <!-- Background Glowing Orbs -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+
+  <div class="app-container">
+    <!-- Header Area -->
+    <header class="app-header">
+      <div class="logo-area">
+        <span class="logo-accent">Twintik</span>
+        <span class="logo-title">B2B Matching Algorithm</span>
+      </div>
+      <div class="header-status">
+        <div class="status-indicator online" id="serverStatusIndicator"></div>
+        <span class="status-text" id="serverStatusText">Connecting...</span>
+      </div>
+    </header>
+
+    <!-- Metrics Ribbon -->
+    <section class="metrics-ribbon" aria-label="System Quick Stats">
+      <div class="metric-card">
+        <div class="metric-value" id="statCompanyCount">0</div>
+        <div class="metric-label">Registered Companies</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="statEmbeddingCount">0</div>
+        <div class="metric-label">Vector Embeddings</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">384-D</div>
+        <div class="metric-label">all-MiniLM-L6-v2</div>
+      </div>
+    </section>
+
+    <!-- Glassmorphic Tabs Navigation -->
+    <nav class="navigation-tabs" role="tablist" aria-label="App Modules">
+      <button class="tab-button active" role="tab" aria-selected="true" aria-controls="searchPanel" id="tabSearch">
+        B2B Match Finder
+      </button>
+      <button class="tab-button" role="tab" aria-selected="false" aria-controls="registryPanel" id="tabRegistry">
+        Company Registry
+      </button>
+      <button class="tab-button" role="tab" aria-selected="false" aria-controls="adminPanel" id="tabAdmin">
+        System Control
+      </button>
+    </nav>
+
+    <!-- Tab Panels Container -->
+    <main class="panels-container">
+      
+      <!-- Panel 1: B2B Match Finder -->
+      <section class="tab-panel active" id="searchPanel" role="tabpanel" aria-labelledby="tabSearch">
+        <div class="search-layout">
+          <!-- Sidebar Filters -->
+          <div class="search-sidebar glass-panel">
+            <h2 class="section-title">Recommendation Filters</h2>
+            <form id="searchForm" novalidate>
+              <div class="form-group">
+                <label for="searchQuery">Search Query (Intent / Needs)</label>
+                <textarea id="searchQuery" name="search_query" placeholder="e.g., looking for scalable payment gateway solutions" required></textarea>
+                <span class="field-hint">Describe what products, offerings, or team roles you are matching for.</span>
+              </div>
+
+              <fieldset class="filter-fieldset">
+                <legend>Heuristic Hard Filters</legend>
+                
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="filterCountry">Country</label>
+                    <input type="text" id="filterCountry" name="country" placeholder="e.g., UAE" list="countryList">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="filterIndustry">Industry</label>
+                    <input type="text" id="filterIndustry" name="primary_industry" placeholder="e.g., FinTech" list="industryList">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="filterBizType">Business Type</label>
+                    <input type="text" id="filterBizType" name="business_type" placeholder="e.g., SaaS Provider" list="businessTypeList">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="filterCity">City</label>
+                    <input type="text" id="filterCity" name="city" placeholder="e.g., Dubai">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="filterFunding">Funding Stage</label>
+                    <input type="text" id="filterFunding" name="funding_stage" placeholder="e.g., Series A" list="fundingStageList">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="filterMinOrder">Max Supplier MOQ</label>
+                    <input type="number" id="filterMinOrder" name="min_order_qty" min="0" placeholder="e.g., 10">
+                  </div>
+                </div>
+
+                <div class="form-group checkbox-group">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="filterVerified" name="is_verified_business">
+                    <span class="toggle-slider"></span>
+                  </label>
+                  <span class="checkbox-label" for="filterVerified">Verified Businesses Only</span>
+                </div>
+              </fieldset>
+
+              <button type="submit" class="btn btn-primary" id="btnRunSearch">
+                Compute B2B Matches
+              </button>
+            </form>
+          </div>
+
+          <!-- Results Area -->
+          <div class="search-results-container">
+            <div class="results-header">
+              <h2 class="section-title">Engine Recommendations</h2>
+              <span class="results-count" id="resultsCountText">0 matches found</span>
+            </div>
+            
+            <!-- Result Cards Grid -->
+            <div class="results-grid" id="searchResultsList">
+              <div class="empty-state-card">
+                <div class="empty-icon">🔍</div>
+                <h3>Start Recommendation Engine</h3>
+                <p>Provide a search query and apply hard filters to locate B2B partner matches.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 2: Company Registry -->
+      <section class="tab-panel" id="registryPanel" role="tabpanel" aria-labelledby="tabRegistry">
+        <div class="registry-layout">
+          <!-- Add Company Form -->
+          <div class="registry-form-container glass-panel">
+            <h2 class="section-title" id="formActionTitle">Register New Company</h2>
+            <form id="companyForm" novalidate>
+              <input type="hidden" id="editCompanyId" name="company_id" value="">
+              
+              <fieldset class="form-section">
+                <legend>Basic Business Details</legend>
+                
+                <div class="form-group">
+                  <label for="compName">Company Name *</label>
+                  <input type="text" id="compName" name="company_name" required placeholder="e.g., Apex PayTech">
+                  <span class="error-msg" id="err-compName">Company name is required.</span>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="compCountry">Country *</label>
+                    <input type="text" id="compCountry" name="country" required placeholder="e.g., UAE" list="countryList">
+                    <span class="error-msg" id="err-compCountry">Country is required.</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="compRegion">State / Region *</label>
+                    <input type="text" id="compRegion" name="state_region" required placeholder="e.g., Dubai">
+                    <span class="error-msg" id="err-compRegion">Region is required.</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="compCity">City *</label>
+                    <input type="text" id="compCity" name="city" required placeholder="e.g., Dubai">
+                    <span class="error-msg" id="err-compCity">City is required.</span>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="compIndustry">Primary Industry *</label>
+                    <input type="text" id="compIndustry" name="primary_industry" required placeholder="e.g., FinTech" list="industryList">
+                    <span class="error-msg" id="err-compIndustry">Industry is required.</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="compBizType">Business Type *</label>
+                    <input type="text" id="compBizType" name="business_type" required placeholder="e.g., SaaS Provider" list="businessTypeList">
+                    <span class="error-msg" id="err-compBizType">Business type is required.</span>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="compSize">Company Size *</label>
+                    <input type="text" id="compSize" name="company_size" required placeholder="e.g., 50-200 employees" list="companySizeList">
+                    <span class="error-msg" id="err-compSize">Company size is required.</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="compFunding">Funding Stage *</label>
+                    <input type="text" id="compFunding" name="funding_stage" required placeholder="e.g., Series A" list="fundingStageList">
+                    <span class="error-msg" id="err-compFunding">Funding stage is required.</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="compMOQ">Minimum Order Qty (MOQ) *</label>
+                    <input type="number" id="compMOQ" name="min_order_qty" required min="0" value="1">
+                    <span class="error-msg" id="err-compMOQ">Valid MOQ is required.</span>
+                  </div>
+                </div>
+
+                <div class="form-group checkbox-group">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="compVerified" name="is_verified_business" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                  <span class="checkbox-label" for="compVerified">Verified Business Account</span>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-section">
+                <legend>Semantic Search Matching Profile</legend>
+                
+                <div class="form-group">
+                  <label for="compBio">Company Bio *</label>
+                  <textarea id="compBio" name="company_bio" required placeholder="Describe company's core operations, values and mission..."></textarea>
+                  <span class="error-msg" id="err-compBio">Company bio is required.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="compTeam">Core Team Designations *</label>
+                  <input type="text" id="compTeam" name="core_team_designations" required placeholder="e.g., CEO, CTO, Head of Payments">
+                  <span class="field-hint">Comma separated list of team roles.</span>
+                  <span class="error-msg" id="err-compTeam">Team roles are required.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="compSpecialties">Business Specialties *</label>
+                  <input type="text" id="compSpecialties" name="specialties" required placeholder="e.g., payment gateway, API payments, card processing">
+                  <span class="field-hint">Comma separated keywords.</span>
+                  <span class="error-msg" id="err-compSpecialties">Specialties are required.</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="compOfferings">Product & Service Offerings *</label>
+                  <textarea id="compOfferings" name="product_service_offerings" required placeholder="e.g., online payment gateway, recurring billing, payout automation"></textarea>
+                  <span class="error-msg" id="err-compOfferings">Offerings are required.</span>
+                </div>
+              </fieldset>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="btnCancelEdit" style="display: none;">Cancel Edit</button>
+                <button type="submit" class="btn btn-primary" id="btnSubmitCompany">Save Profile</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Companies List View -->
+          <div class="registry-list-container glass-panel">
+            <div class="list-header">
+              <h2 class="section-title">Registered Companies</h2>
+              <div class="list-actions">
+                <input type="text" id="listSearchFilter" placeholder="Filter current list...">
+              </div>
+            </div>
+            
+            <div class="table-scroll-container">
+              <table class="companies-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Industry</th>
+                    <th>Size & Funding</th>
+                    <th>MOQ</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="companiesTableBody">
+                  <tr>
+                    <td colspan="7" class="loading-cell">Loading companies database...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+              <button class="btn btn-icon" id="btnPrevPage" disabled>&larr; Prev</button>
+              <span class="page-indicator" id="pageIndicatorText">Page 1 of 1</span>
+              <button class="btn btn-icon" id="btnNextPage" disabled>Next &rarr;</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 3: System Control (Admin) -->
+      <section class="tab-panel" id="adminPanel" role="tabpanel" aria-labelledby="tabAdmin">
+        <div class="admin-layout glass-panel">
+          <h2 class="section-title">Developer & Admin Utilities</h2>
+          <p class="admin-description">Manage sample dataset initialization, vector indexing pipelines, and connection strings.</p>
+          
+          <div class="admin-actions-grid">
+            <div class="admin-action-card">
+              <div class="action-icon">🚀</div>
+              <h3>Seed Sample Database</h3>
+              <p>Populate the MongoDB companies collection with 10 unique B2B profiles across FinTech, SaaS, Logistics, etc., including 4 UAE-based FinTech companies.</p>
+              <button class="btn btn-primary" id="btnSeedData">Seed Database</button>
+            </div>
+
+            <div class="admin-action-card">
+              <div class="action-icon">🧠</div>
+              <h3>Regenerate All Embeddings</h3>
+              <p>Triggers BackgroundTasks to rebuild context strings and calculate new vector embeddings (384 floats) for all companies in the collection.</p>
+              <button class="btn btn-accent" id="btnRegenEmbeddings">Run Re-Index Pipeline</button>
+            </div>
+          </div>
+
+          <div class="admin-logs-section">
+            <h3>System Messages & Console</h3>
+            <pre class="logs-console" id="adminConsoleLogs">> Console ready. Waiting for action...</pre>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Shared DataLists for Fuzzy Search Semantics -->
+  <datalist id="countryList">
+    <option value="UAE">
+    <option value="USA">
+    <option value="UK">
+    <option value="Germany">
+    <option value="China">
+    <option value="India">
+    <option value="Canada">
+    <option value="Saudi Arabia">
+  </datalist>
+
+  <datalist id="industryList">
+    <option value="FinTech">
+    <option value="SaaS">
+    <option value="Logistics">
+    <option value="Manufacturing">
+    <option value="Marketing">
+    <option value="AI Automation">
+    <option value="Cybersecurity">
+    <option value="E-Commerce">
+  </datalist>
+
+  <datalist id="businessTypeList">
+    <option value="SaaS Provider">
+    <option value="Service Provider">
+    <option value="Manufacturer">
+    <option value="Distributor">
+    <option value="Wholesaler">
+    <option value="Consultancy">
+  </datalist>
+
+  <datalist id="companySizeList">
+    <option value="1-10 employees">
+    <option value="10-50 employees">
+    <option value="50-200 employees">
+    <option value="200-500 employees">
+    <option value="500+ employees">
+  </datalist>
+
+  <datalist id="fundingStageList">
+    <option value="Pre-Seed">
+    <option value="Seed">
+    <option value="Series A">
+    <option value="Series B">
+    <option value="Series C">
+    <option value="IPO">
+  </datalist>
+
+  <!-- Client JavaScript Logic -->
+  <script src="/static/main.js"></script>
+</body>
+</html>

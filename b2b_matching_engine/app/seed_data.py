@@ -859,6 +859,266 @@ SEED_COMPANIES: List[Dict[str, Any]] = [
     }
 ]
 
+LOCATIONS = [
+    {"country": "UAE", "state_region": "Dubai", "city": "Dubai"},
+    {"country": "UAE", "state_region": "Abu Dhabi", "city": "Abu Dhabi"},
+    {"country": "USA", "state_region": "California", "city": "San Francisco"},
+    {"country": "USA", "state_region": "New York", "city": "New York City"},
+    {"country": "USA", "state_region": "Texas", "city": "Austin"},
+    {"country": "UK", "state_region": "England", "city": "London"},
+    {"country": "Germany", "state_region": "Bavaria", "city": "Munich"},
+    {"country": "Germany", "state_region": "Berlin", "city": "Berlin"},
+    {"country": "India", "state_region": "Karnataka", "city": "Bangalore"},
+    {"country": "India", "state_region": "Maharashtra", "city": "Mumbai"},
+    {"country": "Canada", "state_region": "Ontario", "city": "Toronto"},
+    {"country": "Canada", "state_region": "Quebec", "city": "Montreal"},
+    {"country": "Saudi Arabia", "state_region": "Riyadh", "city": "Riyadh"},
+    {"country": "Singapore", "state_region": "Central Region", "city": "Singapore"},
+    {"country": "Australia", "state_region": "New South Wales", "city": "Sydney"},
+    {"country": "Japan", "state_region": "Tokyo", "city": "Tokyo"},
+    {"country": "Egypt", "state_region": "Cairo", "city": "Cairo"},
+    {"country": "Kenya", "state_region": "Nairobi", "city": "Nairobi"},
+    {"country": "France", "state_region": "Ile-de-France", "city": "Paris"},
+    {"country": "Netherlands", "state_region": "North Holland", "city": "Amsterdam"},
+    {"country": "Jordan", "state_region": "Amman", "city": "Amman"},
+    {"country": "Italy", "state_region": "Lombardy", "city": "Milan"},
+]
+
+INDUSTRIES = [
+    "FinTech", "SaaS", "Logistics", "Manufacturing", "Marketing",
+    "AI Automation", "Cybersecurity", "E-Commerce", "Agriculture",
+    "Biotech", "Energy", "Healthcare", "Aerospace", "Chemicals"
+]
+
+BUSINESS_TYPES = [
+    "SaaS Provider", "Service Provider", "Manufacturer", "Distributor",
+    "Wholesaler", "Consultancy", "Agency"
+]
+
+COMPANY_SIZES = [
+    "1-10 employees", "10-50 employees", "50-200 employees",
+    "200-500 employees", "500+ employees"
+]
+
+FUNDING_STAGES = [
+    "Pre-Seed", "Seed", "Series A", "Series B", "Series C", "IPO"
+]
+
+INDUSTRY_TEMPLATES = {
+    "FinTech": {
+        "bios": [
+            "Providing next-generation digital ledger tech and micro-payment APIs for emerging economies.",
+            "A secure credit scoring and consumer lending platform utilizing machine learning models.",
+            "High-frequency institutional trading software and liquidity aggregation systems.",
+            "Cross-border remittance routing and merchant settlement APIs tailored for B2B trade.",
+        ],
+        "specialties": "digital ledger, micro-payments, credit scoring, algorithmic trading, cross-border remittance, merchant settlement",
+        "offerings": "digital ledger API, consumer credit SDK, institutional liquidity pool, cross-border payment gateway"
+    },
+    "SaaS": {
+        "bios": [
+            "Cloud-based project management dashboards and collaborative task boards for distributed engineering teams.",
+            "Automated human resources recruitment trackers and digital onboarding platforms.",
+            "Subscription billing management engines and real-time revenue analytics dashboards.",
+            "Customer relationship management platforms featuring automated marketing flows and live chat integrations.",
+        ],
+        "specialties": "project management, HR automation, billing engine, subscriber analytics, CRM software, marketing automation",
+        "offerings": "team collaboration workspace license, HR onboarding portal, API subscription manager, CRM dashboard login"
+    },
+    "Logistics": {
+        "bios": [
+            "Cold chain cargo transit and temperature-monitored warehouse storage networks.",
+            "Final-mile package delivery orchestration platforms and automated drone shipping fleets.",
+            "Port cargo brokerage and customs clearing dispatch services for international importers.",
+            "Intermodal cargo route optimization and freight forwarding logistics platforms.",
+        ],
+        "specialties": "cold cargo transit, temperature storage, final-mile delivery, drone shipping, customs clearing, route optimization",
+        "offerings": "refrigerated container lease, automated shipping dispatch, customs clearance package, freight shipping credit"
+    },
+    "Manufacturing": {
+        "bios": [
+            "High-tolerance custom injection molding and rapid prototype tool fabricating.",
+            "Industrial sensor arrays and automated assembly line controller units.",
+            "Precision mechanical components and aluminum framing setups for cleanroom facilities.",
+            "Additive manufacturing labs specialized in heavy metal print parts and carbon fiber molds.",
+        ],
+        "specialties": "injection molding, rapid prototypes, assembly line sensors, precision parts, cleanroom setups, metal 3D printing",
+        "offerings": "custom plastic mold tooling, assembly line controller, precision bracket crate, printed titanium gears"
+    },
+    "Marketing": {
+        "bios": [
+            "Visual brand identity design and luxury product packaging design services.",
+            "Search engine optimization (SEO) automation toolkits and programmatic ad networks.",
+            "Influencer marketing booking software and performance metrics dashboard systems.",
+            "Content creation agencies generating social video copy and dynamic media packages.",
+        ],
+        "specialties": "brand identity, packaging design, SEO optimization, programmatic ads, influencer analytics, video marketing",
+        "offerings": "corporate branding package, automated SEO audit report, campaign booking subscription, product mockup layout"
+    },
+    "AI Automation": {
+        "bios": [
+            "Deep learning neural networks and natural language understanding models for customer support.",
+            "Autonomous computer vision systems for quality control in high-speed manufacturing.",
+            "Robotic process automation tools capturing screen flows to automate database entry.",
+            "Generative AI agent engines designed for drafting legal contracts and matching compliance rules.",
+        ],
+        "specialties": "neural networks, computer vision, process automation, generative agents, legal AI, compliance matching",
+        "offerings": "vision analysis dashboard, document processing API, compliance auditor agent license, custom model training"
+    },
+    "Cybersecurity": {
+        "bios": [
+            "Zero-trust network access (ZTNA) clients and virtual private cloud perimeter shields.",
+            "Automated penetration testing software and continuous vulnerability scanner systems.",
+            "End-point threat detection response (EDR) agents with kernel-level isolation features.",
+            "Decentralized identity verification keys and cryptographically secure single-sign-on systems.",
+        ],
+        "specialties": "zero-trust access, vulnerability scan, threat detection, end-point security, decentralized ID, secure sign-on",
+        "offerings": "zero-trust cloud license, network pen-test package, threat sensor licenses, secure SSO authentication API"
+    },
+    "E-Commerce": {
+        "bios": [
+            "White-label print-on-demand drop-shipping fulfillment networks with automated routing.",
+            "Social commerce checkout links and multi-channel inventory sync engines.",
+            "Personalized product recommendation widgets based on user clickstream analytics.",
+            "Reverse logistics orchestration portals managing customer returns and warehouse restock.",
+        ],
+        "specialties": "drop-shipping routing, checkout widgets, multi-channel sync, clickstream personalization, return logistics, restock portals",
+        "offerings": "fulfillment dashboard portal, inventory sync API key, smart recommender widget, return tracking portal"
+    },
+    "Agriculture": {
+        "bios": [
+            "Greenhouse hydroponic cultivation systems and automated nutrient dosing pumps.",
+            "Satellite-guided soil moisture analysis sensors and precision crop yield forecasting.",
+            "Fair-trade organic product processing facilities supplying bulk coffee and cacao beans.",
+            "Vertically integrated indoor farming shelves featuring LED spectrum tuning arrays.",
+        ],
+        "specialties": "hydroponic systems, crop forecasting, fair-trade processing, bulk coffee beans, indoor farming, spectrum LEDs",
+        "offerings": "hydroponic pump unit, soil analysis report subscription, bulk organic bean sacks, smart LED shelving unit"
+    },
+    "Biotech": {
+        "bios": [
+            "CRISPR gene editing reagents and customized cell culture media compounds.",
+            "Microfluidic DNA sequencing chipsets and diagnostic assay kit packaging.",
+            "High-throughput cellular screening platforms identifying oncology drug candidates.",
+            "Synthetic biology fermentation systems producing clean plant-based proteins.",
+        ],
+        "specialties": "CRISPR gene editing, DNA sequencing, diagnostic assays, high-throughput screen, synthetic biology, plant proteins",
+        "offerings": "CRISPR guide RNA design, diagnostic assay cartridge, drug screening run, plant protein powder bulk"
+    },
+    "Energy": {
+        "bios": [
+            "High-capacity lithium iron phosphate battery packs for utility-scale grid backup.",
+            "Monocrystalline bifacial solar panels and decentralized microgrid control software.",
+            "Offshore wind turbine monitoring sensors and predictive rotor maintenance alerts.",
+            "Hydrogen fuel cell generator modules for zero-emission commercial backup power.",
+        ],
+        "specialties": "lithium storage, solar power, microgrid software, wind sensors, hydrogen fuel, backup generators",
+        "offerings": "utility battery module, solar panel pallet, wind turbine sensor kit, fuel cell generator unit"
+    },
+    "Healthcare": {
+        "bios": [
+            "Remote patient monitoring vitals sensors and secure HIPAA-compliant telehealth portals.",
+            "Electronic health record (EHR) database integration software and medical billing checkers.",
+            "AI-assisted clinical trial patient recruiting and document matching pipelines.",
+            "Wearable medical alert bands with real-time fall detection and GPS location alerts.",
+        ],
+        "specialties": "patient monitoring, telehealth portals, EHR database, medical billing, clinical trial recruitment, wearable sensors",
+        "offerings": "patient tracker device, telehealth portal license, medical billing validator API, wearable alert band package"
+    },
+    "Aerospace": {
+        "bios": [
+            "Low-Earth orbit nanosatellite bus units and secure ground station telemetry radios.",
+            "Lightweight carbon composite fuselage sections and avionics bracket fabrications.",
+            "Precision drone autopilot controllers and telemetry link transmitter modules.",
+            "High-thrust electric thruster propulsion drives for satellite orbital adjustments.",
+        ],
+        "specialties": "nanosatellite units, telemetry radios, carbon composites, avionics brackets, drone autopilot, electric propulsion",
+        "offerings": "nanosatellite chassis, composite shell section, autopilot system unit, ion thruster module"
+    },
+    "Chemicals": {
+        "bios": [
+            "Specialty bio-degradable industrial solvents and non-toxic metal degreasing fluids.",
+            "Advanced polymer resin compounds and high-strength epoxy curing agents.",
+            "Agricultural crop protective spray formulations and organic pest barrier chemicals.",
+            "Food-grade natural preservative extracts and emulsifying texturing agents.",
+        ],
+        "specialties": "biodegradable solvents, polymer resins, epoxy curing, crop protectives, natural preservatives, emulsifiers",
+        "offerings": "industrial solvent drum, polymer resin pallet, crop protection concentrate, preservative powder wholesale"
+    }
+}
+
+def generate_dynamic_companies(count: int = 200) -> list:
+    import random
+    rng = random.Random(42)
+    
+    prefixes = ["Quantum", "Apex", "Global", "Cyber", "Nova", "Stellar", "Helix", "Synergy", "Vertex", "Nexis", "Alpha", "Omni", "Vanguard", "Delta", "Echo", "Prism", "Matrix", "Stratum", "Beacon", "Cortex", "Aether", "Lumen", "Flux", "Volta", "Krypton", "Obsidian", "Pinnacle", "Titan", "Zodiac", "Solstice"]
+    roots = ["Link", "Core", "Sys", "Net", "Logix", "Grid", "Base", "Flow", "Ware", "Scale", "Trust", "Pay", "Space", "Gen", "Bio", "Chem", "Food", "Agri", "Robotics", "Secure", "Logic", "Pulse", "Metrics", "Labs", "Dynamics", "Solutions", "Hive", "Thread", "Node", "Orbit"]
+    suffixes = ["Inc", "Solutions", "Technologies", "Group", "Global", "Partners", "Labs", "Systems", "Ventures", "Corp", "Ltd", "International", "Networks", "Enterprises", "Alliance", "Syndicate", "Consortium"]
+    
+    team_options = [
+        "CEO, CTO, Lead Architect",
+        "Founder, Managing Director, Head of Engineering",
+        "Managing Partner, Chief Risk Officer, Lead Specialist",
+        "CEO, Lead Developer, Compliance Lead",
+        "Director of Operations, Chief Technologist",
+        "General Partner, Chief Commercial Officer, Brand Liaison",
+        "Lead Chemist, Quality Assurance Director",
+        "CEO, VP of Supply Chain, Logistics Director",
+    ]
+    
+    generated_names = set()
+    dynamic_companies = []
+    
+    existing_names = {c["company_name"] for c in SEED_COMPANIES}
+    
+    while len(dynamic_companies) < count:
+        p = rng.choice(prefixes)
+        r = rng.choice(roots)
+        s = rng.choice(suffixes)
+        name = f"{p} {r} {s}"
+        if name in generated_names or name in existing_names:
+            continue
+        generated_names.add(name)
+        
+        loc = rng.choice(LOCATIONS)
+        ind = rng.choice(INDUSTRIES)
+        biz = rng.choice(BUSINESS_TYPES)
+        size = rng.choice(COMPANY_SIZES)
+        fund = rng.choice(FUNDING_STAGES)
+        moq = rng.choice([1, 5, 10, 15, 20, 25, 50, 75, 100, 150, 200, 250, 500, 1000, 2500])
+        verified = rng.choice([True, False])
+        
+        template = INDUSTRY_TEMPLATES[ind]
+        bio_template = rng.choice(template["bios"])
+        
+        company_bio = f"A prominent {biz} in the {ind} sector. {bio_template}"
+        specialties = template["specialties"]
+        offerings = f"Wholesale {template['offerings']} options, custom {biz.lower()} terms."
+        team = rng.choice(team_options)
+        
+        company = {
+            "company_name": name,
+            "country": loc["country"],
+            "state_region": loc["state_region"],
+            "city": loc["city"],
+            "primary_industry": ind,
+            "business_type": biz,
+            "min_order_qty": moq,
+            "company_size": size,
+            "funding_stage": fund,
+            "is_verified_business": verified,
+            "company_bio": company_bio,
+            "core_team_designations": team,
+            "specialties": specialties,
+            "product_service_offerings": offerings
+        }
+        dynamic_companies.append(company)
+        
+    return dynamic_companies
+
+# Append dynamically generated companies to SEED_COMPANIES
+SEED_COMPANIES.extend(generate_dynamic_companies(200))
+
 async def seed_data():
     """
     Creates sample company profiles in MongoDB. Checks uniqueness by company_name
